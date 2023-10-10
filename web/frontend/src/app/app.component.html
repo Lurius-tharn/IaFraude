@@ -6,12 +6,14 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Test</title>
+  <h1>Testeur de fraude</h1>
 </head>
 <body>
 
 
 <!-- predict-form.component.html -->
 <div class="center">
+  <h1>Testeur de fraude</h1>
   <form (ngSubmit)="onSubmit()" class="center"  #predictForm="ngForm">
     <div class="form-group">
       <label for="distance_from_home">Distance par rapport au domicile</label>
@@ -39,14 +41,16 @@
     </div>
     <button type="submit" class="btn btn-primary">Valider</button>
   </form>
-  
-  <div *ngIf="isFraud">
-    <p>C'est une fraude</p>
-  <img src="assets/000-33xp4w6-65213fa865d61989282266.jpg" height="243" width="432">
-  </div>
-  <div *ngIf="!isFraud">
-    <p>Notre intélligence ne detecte pas de fraude</p>
+  <div *ngIf="rep">
+    <div *ngIf="isFraud">
+      <p>C'est une fraude</p>
+    <img src="assets/000-33xp4w6-65213fa865d61989282266.jpg" height="243" width="432">
+    </div>
+    <div *ngIf="!isFraud">
+      <p>Notre intélligence ne detecte pas de fraude</p>
     <img src="assets/8303d89dc5f1147b318a639fed259edd.jpg"height="243" width="432">
+  </div>
+
   
   
 </div>

@@ -27,6 +27,7 @@ export class AppComponent {
   };
 
   isFraud:boolean = false
+  rep = false
   constructor(private http: HttpClient) {}
 
   onSubmit() {
@@ -38,6 +39,7 @@ export class AppComponent {
     console.log(this.predict)
     axios.post(apiUrl, this.predict).then(
       (response) => {
+        this.rep = true
         this.isFraud = response.data.prediction == 1
         console.log('Réponse de l\'API :', response.data.prediction);
       },
