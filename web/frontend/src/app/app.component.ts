@@ -5,9 +5,9 @@ interface Predict {
   distance_from_home:number
   distance_from_last_transaction    :number
   ratio_to_median_purchase_price    :number
-  repeat_retailer    :number
-  used_chip    :number
-  online_order    :number
+  repeat_retailer    :any
+  used_chip    :any
+  online_order    :any
 
 }
 
@@ -31,6 +31,11 @@ export class AppComponent {
 
   onSubmit() {
     const apiUrl = 'http://localhost:4547/predict'; // Remplacez par votre URL API correcte
+    console.log(this.predict)
+    this.predict.used_chip = this.predict.used_chip == true ? 1 : 0
+    this.predict.online_order = this.predict.online_order == true ? 1 : 0
+    this.predict.repeat_retailer = this.predict.repeat_retailer == true ? 1 : 0
+    console.log(this.predict)
     axios.post(apiUrl, this.predict).then(
       (response) => {
         this.isFraud = response.data.prediction == 1
