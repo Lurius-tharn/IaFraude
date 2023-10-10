@@ -25,8 +25,8 @@ export class FraudeController {
 
 	async getFraude(request: Request, response: Response, next: NextFunction) {
 		const predict : Predict = request.body
-		axios.post("https://localhost:8000",predict)
-			.then(data => response.json(data))
+		axios.get("http://127.0.0.1:8000/")
+			.then(data => response.json(data.data.message))
 			.catch(err => next(err));
 
 	}
