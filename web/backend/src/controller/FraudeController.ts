@@ -12,5 +12,10 @@ export class FraudeController {
 
 	}
 
+	async getFraude(request: Request, response: Response, next: NextFunction) {
+
+
+
+	}
 }
 
