@@ -42,6 +42,5 @@ def predict(data: InputData):
 
     # Effectuez la prédiction
     prediction = model.predict(scaled_data_df)
-
     # Renvoyez les prédictions sous forme de réponse
     return {"prediction": prediction[0]}

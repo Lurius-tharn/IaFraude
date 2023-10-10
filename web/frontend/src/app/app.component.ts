@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-
+import axios from 'axios';
 interface Predict {
   distance_from_home:number
   distance_from_last_transaction    :number
@@ -26,13 +26,15 @@ export class AppComponent {
     online_order: 0.0
   };
 
+  isFraud:boolean = false
   constructor(private http: HttpClient) {}
 
   onSubmit() {
     const apiUrl = 'http://localhost:4547/predict'; // Remplacez par votre URL API correcte
-    this.http.post(apiUrl, this.predict).subscribe(
+    axios.post(apiUrl, this.predict).then(
       (response) => {
-        console.log('Réponse de l\'API :', response);
+        this.isFraud = response.data.prediction == 1
+        console.log('Réponse de l\'API :', response.data.prediction);
       },
       (error) => {
         console.error('Erreur lors de la requête POST :', error);
