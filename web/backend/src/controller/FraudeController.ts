@@ -1,6 +1,17 @@
 import express, {NextFunction, Request, Response} from "express"
-const sqlite3 = require("sqlite3");
-// var db = new sqlite3.Database('../identifier/identifier.sqlite');
+
+import axios from "axios"
+
+interface Predict {
+	distance_from_home:number
+	distance_from_last_transaction    :number
+	ratio_to_median_purchase_price    :number
+	repeat_retailer    :number
+	used_chip    :number
+	online_order    :number
+
+}
+
 export class FraudeController {
 
 	constructor () {
@@ -12,5 +23,12 @@ export class FraudeController {
 
 	}
 
+	async getFraude(request: Request, response: Response, next: NextFunction) {
+		const predict : Predict = request.body
+		axios.post("https://localhost:8000",predict)
+			.then(data => response.json(data))
+			.catch(err => next(err));
+
+	}
 }
 

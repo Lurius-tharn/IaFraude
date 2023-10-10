@@ -21,6 +21,8 @@ export class Routes {
 		app.route("/fraudes").get((request: Request, response: Response, next: NextFunction) => this.FraudeController.testFraude(request, response, next));
 
 
+		app.route("/predict").post((request: Request, response: Response, next: NextFunction) => this.FraudeController.getFraude(request, response, next));
+
 	}
 
 
