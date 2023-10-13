@@ -1,13 +1,13 @@
 import {NextFunction, Request, Response} from "express";
-import {FraudeController} from "../controller/FraudeController";
+import {EcologieController} from "../controller/EcologieController";
 
 
 export class Routes {
 
 
-	private FraudeController : FraudeController
+	private EcologieController : EcologieController
 	constructor () {
-		this.FraudeController = new FraudeController()
+		this.EcologieController = new EcologieController()
 	}
 
 	public routes(app) : void{
@@ -18,10 +18,10 @@ export class Routes {
 						message: "GET request successfully."
 					});
 			});
-		app.route("/fraudes").get((request: Request, response: Response, next: NextFunction) => this.FraudeController.testFraude(request, response, next));
+		app.route("/ecologie").get((request: Request, response: Response, next: NextFunction) => this.EcologieController.testEcologie(request, response, next));
 
 
-		app.route("/predict").post((request: Request, response: Response, next: NextFunction) => this.FraudeController.getFraude(request, response, next));
+		app.route("/predict").post((request: Request, response: Response, next: NextFunction) => this.EcologieController.getEcologie(request, response, next));
 
 	}
 
