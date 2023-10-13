@@ -11,6 +11,14 @@ interface Predict {
 
 }
 
+interface Capteur{
+  ws:number,
+  i:number,
+  ta:number,
+  tc:number
+
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -26,12 +34,20 @@ export class AppComponent {
     online_order: 0.0
   };
 
+  capteur:Capteur = {
+
+    ws: 0.0,
+    tc: 0.0,
+    ta: 0.0,
+    i: 0.0,
+  }
+
   isFraud:boolean = false
   constructor(private http: HttpClient) {}
 
   onSubmit() {
-    const apiUrl = 'http://localhost:4547/predict'; // Remplacez par votre URL API correcte
-    axios.post(apiUrl, this.predict).then(
+    const apiUrl = 'http://localhost:4547/capteur'; // Remplacez par votre URL API correcte
+    axios.post(apiUrl, this.capteur).then(
       (response) => {
         this.isFraud = response.data.prediction == 1
         console.log('Réponse de l\'API :', response.data.prediction);
