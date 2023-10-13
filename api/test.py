@@ -1,8 +1,11 @@
 import pickle
+import random
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
+from codecarbon import EmissionsTracker, track_emissions
 
 app = FastAPI()
 
@@ -44,3 +47,18 @@ def predict(data: InputData):
     prediction = model.predict(scaled_data_df)
     # Renvoyez les prédictions sous forme de réponse
     return {"prediction": prediction[0]}
+
+@track_emissions
+def codeCarbon():
+    tracker = EmissionsTracker()
+    tracker.start()
+    try:
+        for _ in range(100000000000):
+            for j in range(1000000000000000):
+                random_number = random.randint(1, 10000000)
+                print(random_number)
+    finally:
+        tracker.stop()
+
+
+codeCarbon()
