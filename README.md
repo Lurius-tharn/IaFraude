@@ -26,6 +26,8 @@ l'application Web sur la branche éco permet aux utilisateurs de prédire la tem
 Nous avons essayé d'estimé la température d'Aubervilliers 30 minutes après notre test, et nous avons obtenus ces résultats
 ![Alt Text](ressources/ezgif-1-253cc65545.gif)
 
+De plus, Notre navigation sur le site a été analysé grace a codecarbon  :
+![img.png](Projets/IaFraude/ressources/img.png)
 
 ### Lancement du Back-end Express
 
