@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+
 
 @NgModule({
   declarations: [
@@ -13,9 +15,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 	imports: [
 		BrowserModule,
 		FormsModule,
-       HttpClientModule,
-        NgbModule
-	],
+    HttpClientModule,
+    NgbModule,
+    CanvasJSAngularChartsModule
+
+
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -21,7 +21,7 @@ export class Routes {
 		app.route("/ecologie").get((request: Request, response: Response, next: NextFunction) => this.EcologieController.testEcologie(request, response, next));
 
 
-		app.route("/predict").post((request: Request, response: Response, next: NextFunction) => this.EcologieController.getEcologie(request, response, next));
+		app.route("/temperature").post((request: Request, response: Response, next: NextFunction) => this.EcologieController.getTemperature(request, response, next));
 
 	}
 

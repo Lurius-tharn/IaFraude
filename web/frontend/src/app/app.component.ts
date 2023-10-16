@@ -1,62 +1,105 @@
-import { Component } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+// app.component.ts
+import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
-interface Predict {
-  distance_from_home:number
-  distance_from_last_transaction    :number
-  ratio_to_median_purchase_price    :number
-  repeat_retailer    :number
-  used_chip    :number
-  online_order    :number
-
-}
-
-interface Capteur{
-  ws:number,
-  i:number,
-  ta:number,
-  tc:number
-
-}
+import {CanvasJS} from "@canvasjs/angular-charts";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
-  predict: Predict = {
-    distance_from_home: 0.0,
-    distance_from_last_transaction: 0.0,
-    ratio_to_median_purchase_price: 0.0,
-    repeat_retailer: 0.0,
-    used_chip: 0.0,
-    online_order: 0.0
+export class AppComponent implements OnInit {
+  capteur = {
+    wind_speed: 3.09,
+    cable_temp: 20.0,
+    ambient_temp: 5.09,
+    intensity: 20.0,
+    time: 1800.0,
+    delta: 10.0,
   };
 
-  capteur:Capteur = {
+  response: any = {};
+  city = 'Cergy';
+  dataPoints: any[] = [];
 
-    ws: 0.0,
-    tc: 0.0,
-    ta: 0.0,
-    i: 0.0,
+  chart: any;
+  chartOptions = {
+    animationEnabled: true,
+    theme: 'light2',
+    title: {
+      text: 'Estimation de température sur les 30 prochaines minutes',
+    },
+    axisX: {
+      minimum:0,
+      maximum:1800,
+
+
+      labelFormatter: function (e: any) {
+        return Math.round(e.value / 60);
+      },
+      title: 'Minutes',
+    },
+    axisY: {
+      title: 'Température',
+    },
+    toolTip: {
+      shared: true,
+    },
+    legend: {
+      cursor: 'pointer',
+      itemclick: function (e: any) {
+        if (typeof e.dataSeries.visible === 'undefined' || e.dataSeries.visible) {
+          e.dataSeries.visible = false;
+        } else {
+          e.dataSeries.visible = true;
+        }
+        e.chart.render();
+      },
+    },
+    data: [
+      {
+        type: 'line',
+        showInLegend: true,
+        name: 'Variation de la température',
+        xValueFormatString: '',
+        dataPoints: this.dataPoints,
+      },
+    ],
+  };
+
+  constructor() {}
+
+  ngOnInit() {
+    // Initialize the chart
+    this.chart = new CanvasJS.Chart('chartContainer', this.chartOptions);
   }
 
-  isFraud:boolean = false
-  constructor(private http: HttpClient) {}
+  apiCall() {
+    const weather = `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=metric&appid=3cf54aa3315ab17be061f59b12cd8ca4`;
+
+    axios.get(weather).then((response) => {
+      this.capteur.wind_speed = response.data.wind.speed;
+      this.capteur.ambient_temp = response.data.main.temp;
+    });
+  }
 
   onSubmit() {
-    const apiUrl = 'http://localhost:4547/capteur'; // Remplacez par votre URL API correcte
-    axios.post(apiUrl, this.capteur).then(
-      (response) => {
-        this.isFraud = response.data.prediction == 1
-        console.log('Réponse de l\'API :', response.data.prediction);
-      },
-      (error) => {
+    const apiUrl = 'http://localhost:4547/temperature';
+
+    axios
+      .post(apiUrl, this.capteur)
+      .then((response) => {
+        this.response = response.data;
+        this.dataPoints.splice(0); // Vide le tableau dataPoints
+        this.chart = new CanvasJS.Chart('chartContainer', this.chartOptions); // Recrée le graphique
+
+        this.dataPoints.push({ x: 0, y: this.capteur.ambient_temp });
+        this.dataPoints.push({ x: this.capteur.time, y: this.response.estimation });
+        this.chart.render();
+
+      })
+      .catch((error) => {
         console.error('Erreur lors de la requête POST :', error);
-      }
-    );
+      });
   }
-
-
 }
